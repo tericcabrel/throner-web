@@ -1,0 +1,11 @@
+#camera-view {
+  border: solid 0px red;
+}
+#camera-control {
+  border: solid 0px blue;
+  .btn-camera {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
