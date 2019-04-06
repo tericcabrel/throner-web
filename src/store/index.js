@@ -16,6 +16,7 @@ import AppReducer from './app/reducer';
 const middlewares = [ dynamicMiddlewares, thunk, promise ];
 
 const socketUrl = process.env.REACT_APP_SOCKET_URL;
+const socketPath = process.env.REACT_APP_SOCKET_PATH;
 
 // combined reducers
 const reducers = combineReducers({
@@ -46,7 +47,12 @@ export function configureStore(initialState) {
   const trySocketConnect = () => {
     if (socket) socket.close();
 
-    socket = io.connect(`${socketUrl}`);
+    if(!socketPath) {
+      socket = io.connect(`${socketUrl}`);
+    } else {
+      socket = io.connect(`${socketUrl}`, { path: socketPath });
+    }
+
     socketIOListener(socket, store, trySocketConnect);
 
     socket.on("connect", () => {
