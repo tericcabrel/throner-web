@@ -30,6 +30,7 @@ class Live extends Component {
   };
 
   render() {
+    const streamURL = process.env.REACT_APP_STREAM_URL;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -38,7 +39,7 @@ class Live extends Component {
                       title="Inline Frame Example"
                       width="640"
                       height="480"
-                      src="http://192.168.8.102:8081"/>
+                      src={streamURL}/>
           </Col>
           <Col xs="12" md={{ size: 3, offset: 1 }} id="camera-control">
             <Button color="primary" className="btn-camera" onClick={() => this.takePicture()}>
