@@ -4,11 +4,13 @@ const initialState = {
   data: null,
   loading: false,
   error: null,
-  gallery: []
+  gallery: [],
+  globalError: null
 };
 
 export default (state = initialState, action) => {
   const { type, payload } = action;
+
   switch (type) {
     case `${keys.GET_CAMERA_MEDIA}_PENDING`:
       return { ...state, loading: true };
@@ -19,6 +21,9 @@ export default (state = initialState, action) => {
 
     case keys.TAKE_PICTURE_RESPONSE:
       return { ...state, data: payload };
+
+    case keys.APP_GLOBAL_ERROR:
+      return { ...state, globalError: payload };
 
     default:
       return state;

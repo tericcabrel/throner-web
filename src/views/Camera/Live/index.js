@@ -26,7 +26,6 @@ class Live extends Component {
   }
 
   takePicture = () => {
-    console.log("Yaass !");
     this.props.takePicture({ action: 'take' });
   };
 
@@ -39,7 +38,7 @@ class Live extends Component {
                       title="Inline Frame Example"
                       width="640"
                       height="480"
-                      src="http://192.168.8.103:8081"/>
+                      src="http://192.168.8.102:8081"/>
           </Col>
           <Col xs="12" md={{ size: 3, offset: 1 }} id="camera-control">
             <Button color="primary" className="btn-camera" onClick={() => this.takePicture()}>

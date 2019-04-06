@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const socketIOEmitter = (socket) => () => (next) => (action) => {
-  if(_.startsWith(action.type, 'TK')) {
+  if(_.startsWith(action.type, 'SKT')) {
     console.log('Data sent:', action);
   }
 

@@ -1,6 +1,9 @@
 import {
+  setGlobalError,
   takePictureResponse
 } from "./actions";
+import { parseResponseMessage } from "../../utils/helpers";
+import { PM_MAPPINGS } from "../../constants";
 
 const socketConfigure = (socket, store, trySocketConnect) => {
   socket.on("connect", () => {
@@ -8,12 +11,22 @@ const socketConfigure = (socket, store, trySocketConnect) => {
   });
 
   // Analytic method socket response
-  socket.on("TK_PIC_RESPONSE", (data) => {
-    const socketError = null; //getSocketErrorMessage(data);
+  socket.on("throner_res", (data) => {
+    console.log('Return socket => ', data);
+    const response = parseResponseMessage(data);
+    if (response.error) {
+      // console.log('Error => ', response.message);
+      store.dispatch(setGlobalError({ ...response }));
+      return;
+    }
 
-    //TODO create a modal in withUserHOC for handling Socket error TEC
-    if (socketError === null) {
-      store.dispatch(takePictureResponse(JSON.parse(data)));
+    switch (response.processId) {
+      case PM_MAPPINGS.TAKE_PICTURE:
+        store.dispatch(takePictureResponse(response.data));
+        break;
+      default:
+        console.log('Unknown socket action !');
+        break;
     }
   });
 

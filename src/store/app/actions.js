@@ -5,10 +5,10 @@ import axios from "../../utils/axios";
 export function takePictureRequest(data) {
   return {
     type: keys.TAKE_PICTURE_REQUEST,
-    message: JSON.stringify(data),
+    message: `PM001:::${JSON.stringify(data)}`,
     meta: {
       socket: {
-        channel: "TK_PIC_REQUEST"
+        channel: "throner_req"
       }
     }
   };
@@ -36,3 +36,11 @@ export function getCameraGallery(data) {
     }
   };
 }
+
+
+export const setGlobalError = (data) => {
+  return {
+    type: keys.APP_GLOBAL_ERROR,
+    payload: data
+  }
+};
