@@ -1,0 +1,20 @@
+.card-picture-container {
+  .card-picture {
+    .card-picture-body{
+      padding: 0;
+      min-height: 200px;
+      height: 200px;
+      .card-picture-item {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+    }
+    .card-picture-footer{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+    }
+  }
+}

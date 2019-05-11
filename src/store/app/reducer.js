@@ -5,7 +5,9 @@ const initialState = {
   loading: false,
   error: null,
   gallery: [],
-  globalError: null
+  globalError: null,
+  status: 'off',
+  battery: 0
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +23,12 @@ export default (state = initialState, action) => {
 
     case keys.TAKE_PICTURE_RESPONSE:
       return { ...state, data: payload };
+
+    case keys.CHECK_STATUS_RESPONSE:
+      return { ...state, status: payload };
+
+    case keys.VERIFY_BATTERY_RESPONSE:
+      return { ...state, battery: payload };
 
     case keys.APP_GLOBAL_ERROR:
       return { ...state, globalError: payload };
