@@ -1,1 +1,37 @@
 // Here you can add other styles
+.app-status {
+  display: flex;
+  flex-direction: row;
+  padding: 2px 30px;
+  font-family: 'Arial';
+  .status {
+    margin-right: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .not-connected {
+    color: #ff0000;
+    .status-point {
+      background-color: #ff0000;
+    }
+  }
+  .connected {
+    color: green;
+    .status-point {
+      background-color: green;
+    }
+  }
+  .status-point {
+    width: 10px;
+    height: 10px;
+    margin-right: 3px;
+    border-radius: 10px;
+  }
+  .status-text {
+    height: 16px;
+    position: relative;
+    top: -4px;
+  }
+}

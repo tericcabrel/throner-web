@@ -1,7 +1,7 @@
 import {
   checkStatusResponse,
   setGlobalError,
-  takePictureResponse, verifyBatteryResponse
+  takePictureResponse
 } from "./actions";
 import { parseResponseMessage } from "../../utils/helpers";
 import { PM_MAPPINGS } from "../../constants";
@@ -27,9 +27,6 @@ const socketConfigure = (socket, store, trySocketConnect) => {
         break;
       case PM_MAPPINGS.CHECK_STATUS:
         store.dispatch(checkStatusResponse(response.data));
-        break;
-      case PM_MAPPINGS.VERIFY_BATTERY:
-        store.dispatch(verifyBatteryResponse(response.data));
         break;
       default:
         console.log('Unknown socket action !');

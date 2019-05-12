@@ -1,5 +1,6 @@
 export const PM_MAPPINGS = {
   TAKE_PICTURE: 'PM002',
   CHECK_STATUS: 'PM004',
-  VERIFY_BATTERY: 'PM006',
 };
+
+export const CHECK_STATUS_KEY = "STATUS";

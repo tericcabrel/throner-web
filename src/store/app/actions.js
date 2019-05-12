@@ -1,6 +1,7 @@
 import * as keys from "./actionTypes";
 
 import axios from "../../utils/axios";
+import {CHECK_STATUS_KEY} from "../../constants";
 
 export function takePictureRequest(data) {
   return {
@@ -22,10 +23,10 @@ export const takePictureResponse = (data) => {
 };
 
 
-export function checkStatusRequest(data) {
+export function checkStatusRequest() {
   return {
     type: keys.CHECK_STATUS_REQUEST,
-    message: `PM003:::${JSON.stringify(data)}`,
+    message: `PM003:::${JSON.stringify({ action: '1' })}`,
     meta: {
       socket: {
         channel: "throner_req"
@@ -35,27 +36,9 @@ export function checkStatusRequest(data) {
 }
 
 export const checkStatusResponse = (data) => {
+  localStorage.removeItem(CHECK_STATUS_KEY);
   return {
     type: keys.CHECK_STATUS_RESPONSE,
-    payload: data
-  }
-};
-
-export function verifyBatteryRequest(data) {
-  return {
-    type: keys.VERIFY_BATTERY_REQUEST,
-    message: `PM005:::${JSON.stringify(data)}`,
-    meta: {
-      socket: {
-        channel: "throner_req"
-      }
-    }
-  };
-}
-
-export const verifyBatteryResponse = (data) => {
-  return {
-    type: keys.VERIFY_BATTERY_RESPONSE,
     payload: data
   }
 };
@@ -94,3 +77,10 @@ export function deletePicture(id) {
     }
   };
 }
+
+export const changeAppStatus = (data) => {
+  return {
+    type: keys.CHANGE_APP_STATUS,
+    payload: data
+  }
+};

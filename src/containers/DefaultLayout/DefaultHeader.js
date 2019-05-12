@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 
 import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+import logo from '../../assets/img/brand/logo.svg';
+import sygnet from '../../assets/img/brand/sygnet.svg';
+import {changeAppStatus, checkStatusRequest} from "../../store/app/actions";
+import {CHECK_STATUS_KEY} from "../../constants";
 
 const propTypes = {
   children: PropTypes.node,
@@ -13,10 +16,75 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
+
+  constructor(props) {
+    super(props);
+    this.timerStatus = null;
+  }
+
+  getBatteryStatus = (batteryPercent) => {
+    const icons = [
+      'fa-battery-empty', 'fa-battery-quarter', 'fa-battery-half', 'fa-battery-three-quarters', 'fa-battery-full'
+    ];
+    let color = '#ff0000';
+    let batteryIcon = icons[0];
+
+    if (batteryPercent <= 20) {
+      color = '#ff0000';
+      batteryIcon = icons[0];
+    } else if (batteryPercent > 20 && batteryPercent <= 40) {
+      color = 'orange';
+      batteryIcon = icons[1];
+    } else if (batteryPercent > 40 && batteryPercent <= 60) {
+      color = '#0000ff';
+      batteryIcon = icons[2];
+    } else if (batteryPercent > 60 && batteryPercent <= 80) {
+      color = '#0000ff';
+      batteryIcon = icons[3];
+    } else if (batteryPercent > 80) {
+      color = 'green';
+      batteryIcon = icons[4];
+    }
+
+    return { color, batteryIcon };
+  };
+
+  componentWillMount() {
+    const $this = this;
+    const checkInterval = process.env.REACT_APP_CHECK_INTERVAL || 20;
+    this.props.checkStatusRequest();
+
+    this.timerStatus = setInterval(() => {
+      $this.props.checkStatusRequest();
+      localStorage.setItem(CHECK_STATUS_KEY, 'ST');
+
+      let timeOutCounter = 0;
+      const timer = setInterval(() => {
+        timeOutCounter++;
+        const status = localStorage.getItem(CHECK_STATUS_KEY);
+        if(!status) {
+          clearInterval(timer);
+        }
+
+        if (timeOutCounter >= 20) {
+          $this.props.changeAppStatus({ status: 'off', battery: 0 });
+          clearInterval(timer);
+        }
+      }, 500);
+    }, checkInterval * 1000);
+  }
+
+  componentWillUnmount() {
+    if (this.timerStatus !== null) {
+      clearInterval(this.timerStatus);
+    }
+  }
+
   render() {
 
     // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+    const { children, status, battery, ...attributes } = this.props;
+    const result = this.getBatteryStatus(battery);
 
     return (
       <React.Fragment>
@@ -28,6 +96,15 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="ml-auto" navbar>
+          <div className="app-status">
+            <div className={`status ${status === 'on' ? 'connected' : 'not-connected'}`}>
+              <div className="status-point"/>
+              <div className="status-text">{ status === 'on' ? 'connected' : 'not connected' }</div>
+            </div>
+            <div className="battery-status" style={{ color: result.color}}>
+              <span className={`fa ${result.batteryIcon}`} style={{ color: result.color}}/> {battery}%
+            </div>
+          </div>
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
@@ -50,4 +127,14 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default DefaultHeader;
+const mapStateToProps = ({ auth, app }) => ({
+  status: app.status,
+  battery: app.battery,
+});
+
+const mapDispatchToProps = dispatch => ({
+  checkStatusRequest: () => dispatch(checkStatusRequest()),
+  changeAppStatus: (data) => dispatch(changeAppStatus(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultHeader);
