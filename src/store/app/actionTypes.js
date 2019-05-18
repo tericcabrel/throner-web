@@ -16,3 +16,6 @@ export const DELETE_PICTURE = 'DELETE_PICTURE';
 // Global error
 export const APP_GLOBAL_ERROR = "APP_GLOBAL_ERROR";
 export const CHANGE_APP_STATUS = "CHANGE_APP_STATUS";
+
+export const GET_SESSIONS = "GET_SESSIONS";
+export const GET_SESSION = "GET_SESSION";

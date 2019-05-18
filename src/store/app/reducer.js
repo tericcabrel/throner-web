@@ -7,7 +7,10 @@ const initialState = {
   gallery: [],
   globalError: null,
   status: 'on',
-  battery: 10
+  battery: 10,
+  sessions: [],
+  session: null,
+  positions: []
 };
 
 export default (state = initialState, action) => {
@@ -17,8 +20,22 @@ export default (state = initialState, action) => {
     case `${keys.GET_CAMERA_MEDIA}_PENDING`:
       return { ...state, loading: true };
     case `${keys.GET_CAMERA_MEDIA}_FULFILLED`:
-      return { ...state, data: payload, loading: false, gallery: payload };
+      return { ...state, loading: false, gallery: payload };
     case `${keys.GET_CAMERA_MEDIA}_REJECTED`:
+      return { ...state, loading: false, error: payload };
+
+    case `${keys.GET_SESSIONS}_PENDING`:
+      return { ...state, loading: true };
+    case `${keys.GET_SESSIONS}_FULFILLED`:
+      return { ...state, loading: false, sessions: payload };
+    case `${keys.GET_SESSIONS}_REJECTED`:
+      return { ...state, loading: false, error: payload };
+
+    case `${keys.GET_SESSION}_PENDING`:
+      return { ...state, loading: true, session: null };
+    case `${keys.GET_SESSION}_FULFILLED`:
+      return { ...state, loading: false, session: payload };
+    case `${keys.GET_SESSION}_REJECTED`:
       return { ...state, loading: false, error: payload };
 
     case keys.TAKE_PICTURE_RESPONSE:

@@ -179,5 +179,10 @@ export default {
       variant: 'danger',
       attributes: { target: '_blank', rel: "noopener" },
     },*/
+    {
+      name: 'Controller',
+      url: '/controller',
+      icon: 'icon-speedometer'
+    },
   ],
 };

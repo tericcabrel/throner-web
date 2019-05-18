@@ -84,3 +84,31 @@ export const changeAppStatus = (data) => {
     payload: data
   }
 };
+
+export function getSessions() {
+  return {
+    type: keys.GET_SESSIONS,
+    async payload() {
+      try {
+        const res = await axios.get('sessions');
+        return res.data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+  };
+}
+
+export function getSession(id) {
+  return {
+    type: keys.GET_SESSION,
+    async payload() {
+      try {
+        const res = await axios.get(`sessions/${id}`);
+        return res.data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+  };
+}

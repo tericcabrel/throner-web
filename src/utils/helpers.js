@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const parseResponseMessage = (message) => {
   const array = message.split(':::');
 
@@ -32,4 +34,44 @@ export const readableHumanSize = (bytes, decimalPoint = 2) => {
     i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+};
+
+export const loadJS = (src) => {
+  const ref = window.document.getElementsByTagName("script")[0];
+  const script = window.document.createElement("script");
+  script.src = src;
+  script.async = true;
+  ref.parentNode.insertBefore(script, ref);
+};
+
+export const getDateDifference = (momentStart, momentEnd) => {
+  const ms = momentEnd.diff(momentStart);
+  return moment.duration(ms)
+};
+
+export const formatNumber = (number) => {
+  return number < 10 ? `0${number}` : number
+};
+
+export const getDurationInSecond = (momentStart, momentEnd) => {
+  const duration = getDateDifference(momentStart, momentEnd);
+  const hoursInSecond = parseInt(duration.hours()) * 3600;
+  const minutesInSecond = parseInt(duration.minutes()) * 60;
+  const second = parseInt(duration.seconds());
+
+  return hoursInSecond + minutesInSecond + second
+};
+
+export const durationToHumanReadable = (duration) => {
+  const minutesInSecond = duration % 3600;
+  const hours = (duration - minutesInSecond) / 3600;
+  const seconds = minutesInSecond % 60;
+  const minutes = (minutesInSecond - seconds) / 60;
+
+  return `${hours > 0 ? formatNumber(hours) + 'h' : ''} ${minutes > 0 ? formatNumber(minutes) + 'min' : ''} ${seconds}s`;
+};
+
+export const round = (number, decimal = 2) => {
+  const power = Math.pow(10, decimal);
+  return Math.round(power * number) / power;
 };

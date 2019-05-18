@@ -50,28 +50,30 @@ class DefaultHeader extends Component {
   };
 
   componentWillMount() {
-    const $this = this;
-    const checkInterval = process.env.REACT_APP_CHECK_INTERVAL || 20;
-    this.props.checkStatusRequest();
+    if (process.env.REACT_APP_CHECK_STATUS === 'TRUE') {
+      const $this = this;
+      const checkInterval = process.env.REACT_APP_CHECK_INTERVAL || 20;
+      this.props.checkStatusRequest();
 
-    this.timerStatus = setInterval(() => {
-      $this.props.checkStatusRequest();
-      localStorage.setItem(CHECK_STATUS_KEY, 'ST');
+      this.timerStatus = setInterval(() => {
+        $this.props.checkStatusRequest();
+        localStorage.setItem(CHECK_STATUS_KEY, 'ST');
 
-      let timeOutCounter = 0;
-      const timer = setInterval(() => {
-        timeOutCounter++;
-        const status = localStorage.getItem(CHECK_STATUS_KEY);
-        if(!status) {
-          clearInterval(timer);
-        }
+        let timeOutCounter = 0;
+        const timer = setInterval(() => {
+          timeOutCounter++;
+          const status = localStorage.getItem(CHECK_STATUS_KEY);
+          if (!status) {
+            clearInterval(timer);
+          }
 
-        if (timeOutCounter >= 20) {
-          $this.props.changeAppStatus({ status: 'off', battery: 0 });
-          clearInterval(timer);
-        }
-      }, 500);
-    }, checkInterval * 1000);
+          if (timeOutCounter >= 20) {
+            $this.props.changeAppStatus({status: 'off', battery: 0});
+            clearInterval(timer);
+          }
+        }, 500);
+      }, checkInterval * 1000);
+    }
   }
 
   componentWillUnmount() {
