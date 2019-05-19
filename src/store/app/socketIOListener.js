@@ -1,10 +1,13 @@
 import {
   checkStatusResponse,
+  sendCommandResponse,
   setGlobalError,
   takePictureResponse
 } from "./actions";
 import { parseResponseMessage } from "../../utils/helpers";
 import { PM_MAPPINGS } from "../../constants";
+
+const canLogRequest = process.env.REACT_APP_LOG_SOCKET === 'TRUE';
 
 const socketConfigure = (socket, store, trySocketConnect) => {
   socket.on("connect", () => {
@@ -13,7 +16,9 @@ const socketConfigure = (socket, store, trySocketConnect) => {
 
   // Analytic method socket response
   socket.on("throner_res", (data) => {
-    console.log('Return socket => ', data);
+    if (canLogRequest) {
+      console.log('Return socket => ', data);
+    }
     const response = parseResponseMessage(data);
     if (response.error) {
       // console.log('Error => ', response.message);
@@ -27,6 +32,9 @@ const socketConfigure = (socket, store, trySocketConnect) => {
         break;
       case PM_MAPPINGS.CHECK_STATUS:
         store.dispatch(checkStatusResponse(response.data));
+        break;
+      case PM_MAPPINGS.SEND_COMMAND:
+        store.dispatch(sendCommandResponse(response.data));
         break;
       default:
         console.log('Unknown socket action !');

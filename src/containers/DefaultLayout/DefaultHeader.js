@@ -29,19 +29,19 @@ class DefaultHeader extends Component {
     let color = '#ff0000';
     let batteryIcon = icons[0];
 
-    if (batteryPercent <= 20) {
+    if (batteryPercent <= 10) {
       color = '#ff0000';
       batteryIcon = icons[0];
-    } else if (batteryPercent > 20 && batteryPercent <= 40) {
+    } else if (batteryPercent > 10 && batteryPercent <= 40) {
       color = 'orange';
       batteryIcon = icons[1];
-    } else if (batteryPercent > 40 && batteryPercent <= 60) {
+    } else if (batteryPercent > 40 && batteryPercent <= 70) {
       color = '#0000ff';
       batteryIcon = icons[2];
-    } else if (batteryPercent > 60 && batteryPercent <= 80) {
+    } else if (batteryPercent > 70 && batteryPercent <= 90) {
       color = '#0000ff';
       batteryIcon = icons[3];
-    } else if (batteryPercent > 80) {
+    } else if (batteryPercent > 90) {
       color = 'green';
       batteryIcon = icons[4];
     }

@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
+const canLogRequest = process.env.REACT_APP_LOG_SOCKET === 'TRUE';
+
 const socketIOEmitter = (socket) => () => (next) => (action) => {
-  if(_.startsWith(action.type, 'SKT')) {
+  if(canLogRequest && _.startsWith(action.type, 'SKT')) {
     console.log('Data sent:', action);
   }
 

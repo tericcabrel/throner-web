@@ -1,0 +1,49 @@
+.drone-controller {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 100px 30px;
+  .joypad {
+    position: relative;
+    height: 260px;
+    width: 260px;
+    border-radius: 50%;
+    background-color: #63c2de;
+    z-index: 2;
+  }
+  .joypad-mid {
+    height: 230px;
+    width: 420px;
+    z-index: 1;
+    padding: 20px 70px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  .control_button {
+    border: solid 1px #fff;
+    box-shadow: 0 0 5px #ddd;
+  }
+  .action_button {
+    border: solid 1px #fff;
+    box-shadow: 0 0 5px #ddd;
+    background-color: #fff;
+  }
+  .control-slider {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .rc-slider-vertical {
+      height: 230px;
+      margin-left: 27px;
+    }
+    .control-slider-value {
+      color: #fff;
+      font-weight: bold;
+      align-self: end;
+      margin-bottom: 10px;
+      margin-left: 5px;
+    }
+  }
+}

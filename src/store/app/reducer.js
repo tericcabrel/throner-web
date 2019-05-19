@@ -1,4 +1,5 @@
 import * as keys from './actionTypes';
+import { FLIGHT_STATUS } from "../../constants";
 
 const initialState = {
   data: null,
@@ -7,7 +8,9 @@ const initialState = {
   gallery: [],
   globalError: null,
   status: 'on',
-  battery: 10,
+  battery: 20,
+  flightStatus: FLIGHT_STATUS.LANDED,
+  thrust: 0,
   sessions: [],
   session: null,
   positions: []

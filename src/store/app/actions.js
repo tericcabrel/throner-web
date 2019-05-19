@@ -43,6 +43,25 @@ export const checkStatusResponse = (data) => {
   }
 };
 
+export function sendCommand(data) {
+  return {
+    type: keys.SEND_COMMAND_REQUEST,
+     message: `PM005:::${JSON.stringify(data)}`,
+    meta: {
+      socket: {
+        channel: "throner_req"
+      }
+    }
+  };
+}
+
+export const sendCommandResponse = (data) => {
+  return {
+    type: keys.SEND_COMMAND_RESPONSE,
+    payload: data
+  }
+};
+/* ============================================================================== */
 export function getCameraGallery() {
   return {
     type: keys.GET_CAMERA_MEDIA,
