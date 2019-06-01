@@ -77,8 +77,8 @@ export const round = (number, decimal = 2) => {
 };
 
 export const batteryVoltageToPercent = (voltage) => {
-  const minVoltage = process.env.REACT_APP_VOLTAGE_MIN || 0;
-  const maxVoltage = process.env.REACT_APP_VOLTAGE_MAX || 1;
+  const minVoltage = process.env.REACT_APP_VOLTAGE_MIN || 9;
+  const maxVoltage = process.env.REACT_APP_VOLTAGE_MAX || 12.6;
 
   const maxVoltageInterval = maxVoltage - minVoltage;
   const currentVoltageInterval = maxVoltage - +voltage;
