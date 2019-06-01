@@ -75,3 +75,14 @@ export const round = (number, decimal = 2) => {
   const power = Math.pow(10, decimal);
   return Math.round(power * number) / power;
 };
+
+export const batteryVoltageToPercent = (voltage) => {
+  const minVoltage = process.env.REACT_APP_VOLTAGE_MIN || 0;
+  const maxVoltage = process.env.REACT_APP_VOLTAGE_MAX || 1;
+
+  const maxVoltageInterval = maxVoltage - minVoltage;
+  const currentVoltageInterval = maxVoltage - +voltage;
+  const percent = 100 - (currentVoltageInterval / maxVoltageInterval) * 100;
+
+  return round(percent, 0);
+};

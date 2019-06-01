@@ -1,5 +1,6 @@
 import * as keys from './actionTypes';
 import { FLIGHT_STATUS } from "../../constants";
+import { batteryVoltageToPercent } from "../../utils/helpers";
 
 const initialState = {
   data: null,
@@ -46,7 +47,9 @@ export default (state = initialState, action) => {
 
     case keys.CHECK_STATUS_RESPONSE:
       const { message } = payload;
-      return { ...state, ...message };
+      const batteryPercent = batteryVoltageToPercent(message.battery);
+      const updatedMessage = { ...message, battery: batteryPercent };
+      return { ...state, ...updatedMessage };
 
     case keys.APP_GLOBAL_ERROR:
       return { ...state, globalError: payload };
