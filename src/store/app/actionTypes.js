@@ -12,6 +12,7 @@ export const CHECK_STATUS_RESPONSE = 'TK_STA_RESPONSE';
 
 export const GET_CAMERA_MEDIA = 'GET_CAMERA_MEDIA';
 export const DELETE_PICTURE = 'DELETE_PICTURE';
+export const DELETE_ALL_PICTURE = 'DELETE_ALL_PICTURE';
 
 // Global error
 export const APP_GLOBAL_ERROR = "APP_GLOBAL_ERROR";

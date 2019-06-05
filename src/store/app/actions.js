@@ -97,6 +97,20 @@ export function deletePicture(id) {
   };
 }
 
+export function deleteAllPictures() {
+  return {
+    type: keys.DELETE_ALL_PICTURE,
+    async payload() {
+      try {
+        const res = await axios.delete('pictures');
+        return res.data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+  };
+}
+
 export const changeAppStatus = (data) => {
   return {
     type: keys.CHANGE_APP_STATUS,

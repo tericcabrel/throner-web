@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-import { getCameraGallery, deletePicture } from "../../../store/app/actions";
+import { getCameraGallery, deletePicture, deleteAllPictures } from "../../../store/app/actions";
 
 import CardPicture from '../../../components/CardPicture';
 
@@ -20,6 +20,7 @@ class Gallery extends Component {
       modal: false,
       pictureItem: null,
       confirmModal: false,
+      deleteType: 'one'
     };
   }
 
@@ -41,9 +42,9 @@ class Gallery extends Component {
     }));
   }
 
-  confirmDeletePictureHandler = (item) => {
+  confirmDeletePictureHandler = (item, type) => {
     this.setState({ pictureItem: item }, () => {
-      this.setState({ confirmModal: true });
+      this.setState({ confirmModal: true, deleteType: type });
     });
   };
 
@@ -67,14 +68,35 @@ class Gallery extends Component {
     }
   };
 
+  deleteAllPictureHandler = async () => {
+    this.setState({ pictureItem: null, confirmModal: false });
+    await this.props.deleteAllPictures();
+    await this.props.getPictures();
+  };
+
   render() {
     const { gallery } = this.props;
-    const { modal, pictureItem, confirmModal } = this.state;
+    const { modal, pictureItem, confirmModal, deleteType } = this.state;
     const closeBtn = <button className="close" onClick={this.toggleModal}>&times;</button>;
     const confirmCloseBtn = <button className="close" onClick={this.cancelPictureDeletion}>&times;</button>;
 
     return (
       <div className="animated fadeIn">
+        <Row>
+          <Col xs={12}>
+            <div className="gallery-header">
+              <div className="pictures-count">
+                {gallery.length} Picture{gallery.length > 9 ? 's' : ''}
+              </div>
+              <div>
+                <Button color="danger" onClick={ () => this.confirmDeletePictureHandler(null, 'all') }>
+                  <i className="fa fa-remove"/>{' '}
+                  Delete all
+                </Button>
+              </div>
+            </div>
+          </Col>
+        </Row>
         <Row>
           {
             gallery.map(item => (
@@ -82,7 +104,7 @@ class Gallery extends Component {
                 key={item._id}
                 data={item}
                 onView={() => this.viewPictureHandler(item)}
-                onDelete={() => this.confirmDeletePictureHandler(item)}
+                onDelete={() => this.confirmDeletePictureHandler(item, 'one')}
               />
             ))
           }
@@ -99,13 +121,31 @@ class Gallery extends Component {
         </Modal>
 
         <Modal isOpen={confirmModal} toggle={this.cancelPictureDeletion} className="modal-confirm-picture">
-          <ModalHeader toggle={this.cancelPictureDeletion} close={confirmCloseBtn}>Delete picture</ModalHeader>
+          <ModalHeader
+            toggle={this.cancelPictureDeletion}
+            close={confirmCloseBtn}
+          >
+            Delete { deleteType === 'one' ? 'picture' : 'all pictures'}
+          </ModalHeader>
           <ModalBody>
-            You really want to delete this picture ?
+            You really want to delete
+            {
+              deleteType === 'one' ? ' this picture ?' : 'all these pictures'
+            }
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={this.deletePictureHandler}>Delete</Button>
-            <Button color="secondary" onClick={this.cancelPictureDeletion}>Close</Button>
+            <Button
+              color="danger"
+              onClick={ deleteType === 'one' ? this.deletePictureHandler : this.deleteAllPictureHandler }
+            >
+              Delete
+            </Button>
+            <Button
+              color="secondary"
+              onClick={this.cancelPictureDeletion}
+            >
+              Close
+            </Button>
           </ModalFooter>
         </Modal>
       </div>
@@ -120,6 +160,7 @@ const mapStateToProps = ({ auth, app }) => ({
 const mapDispatchToProps = dispatch => ({
   getPictures: () => dispatch(getCameraGallery()),
   deletePicture: (id) => dispatch(deletePicture(id)),
+  deleteAllPictures: () => dispatch(deleteAllPictures()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Gallery);
