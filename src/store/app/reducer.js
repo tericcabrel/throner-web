@@ -14,7 +14,8 @@ const initialState = {
   thrust: 0,
   sessions: [],
   session: null,
-  positions: []
+  positions: [],
+  settings: {}
 };
 
 export default (state = initialState, action) => {
@@ -56,6 +57,13 @@ export default (state = initialState, action) => {
 
     case keys.CHANGE_APP_STATUS:
       return { ...state, ...payload };
+
+    case `${keys.GET_SETTING}_PENDING`:
+      return { ...state, loading: true, settings: null };
+    case `${keys.GET_SETTING}_FULFILLED`:
+      return { ...state, loading: false, settings: payload };
+    case `${keys.GET_SETTING}_REJECTED`:
+      return { ...state, loading: false, error: payload };
 
     default:
       return state;

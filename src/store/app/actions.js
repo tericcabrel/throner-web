@@ -145,3 +145,17 @@ export function getSession(id) {
     }
   };
 }
+
+export function getSettings() {
+  return {
+    type: keys.GET_SETTING,
+    async payload() {
+      try {
+        const res = await axios.get('settings');
+        return res.data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+  };
+}

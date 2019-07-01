@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col, Row, Button } from 'reactstrap';
 
-import {takePictureRequest} from "../../../store/app/actions";
+import { getSettings, takePictureRequest } from "../../../store/app/actions";
 
 class Live extends Component {
   constructor(props) {
@@ -13,8 +13,17 @@ class Live extends Component {
     this.state = {
       collapse: true,
       fadeIn: true,
-      timeout: 300
+      timeout: 300,
+      url: ''
     };
+  }
+
+  async componentDidMount() {
+    await this.props.getSettings();
+    const { settings } = this.props;
+    if (settings) {
+      this.setState({ url: this.props.settings.stream_url });
+    }
   }
 
   toggle() {
@@ -30,7 +39,7 @@ class Live extends Component {
   };
 
   render() {
-    const streamURL = process.env.REACT_APP_STREAM_URL;
+    const streamURL = this.state.url;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -59,11 +68,12 @@ class Live extends Component {
 }
 
 const mapStateToProps = ({ auth, app }) => ({
-
+  settings: app.settings,
 });
 
 const mapDispatchToProps = dispatch => ({
-  takePicture: data => dispatch(takePictureRequest(data))
+  takePicture: data => dispatch(takePictureRequest(data)),
+  getSettings: () => dispatch(getSettings()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Live);
