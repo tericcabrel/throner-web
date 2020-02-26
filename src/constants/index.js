@@ -6,7 +6,7 @@ export const PM_MAPPINGS = {
 
 export const CHECK_STATUS_KEY = "STATUS";
 
-export const googleMapURL = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Tw50sQKwbXt8G2phWkhVv7_1cQcDw7Q&v=3.exp&libraries=geometry,drawing,places";
+export const googleMapURL = "https://maps.googleapis.com/maps/api/js?key=<put_your_key_here>&v=3.exp&libraries=geometry,drawing,places";
 
 export const COMMAND_TYPE = {
   DIRECTION: "DIRECTION",
